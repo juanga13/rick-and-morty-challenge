@@ -103,11 +103,9 @@ export const CharactersTable = (props: CharactersTableProps) => {
                 <tbody {...getTableBodyProps()}>
                     {rows.map((row, i) => {
                         prepareRow(row)
-                        console.log('rpw', row.getRowProps())
                         return (
                             <tr {...row.getRowProps()}>
                                 {row.cells.map(cell => {
-                                    console.log('cell', cell.getCellProps())
                                     return <td {...cell.getCellProps()} style={{...getWidthsStyles(cell.column)}}>{cell.render('Cell')}</td>
                                 })}
                             </tr>

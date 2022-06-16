@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { CharactersTable } from "./CharactersTable"
-import { Character, CharactersResponse } from "./rickAndMortyTypes"
+import { CharactersResponse } from "./rickAndMortyTypes"
+import { SearchInput } from "./SearchInput"
 import { getCharacters } from "./service"
 
 export const App = () => {
@@ -22,7 +23,9 @@ export const App = () => {
                 </div>
                 {/* icon */}
             </div>
-            <input/>
+            <SearchInput onChange={(value) => {
+                console.log('HI')
+            }}/>
             <CharactersTable data={charactersResponse?.results || []} loading={isLoading}/>
         </div>
     )
