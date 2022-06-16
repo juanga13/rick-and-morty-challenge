@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Character } from '../rickAndMortyTypes'
-import { characterToCharacterRow } from '../utils'
+import { characterToCharacterRow, getWidthsStyles } from './utils'
 import { useTable, Column } from 'react-table'
 import './CharactersTable.scss'
 
@@ -31,26 +31,41 @@ const columns: Column<CharacterRow>[] = [
     {
         Header: HEADER_LABEL['name'],
         accessor: 'name',
+        width: 300,
+        minWidth: 200,
     },
     {
         Header: HEADER_LABEL['status'],
         accessor: 'status',
+        minWidth: 100,
+        width: 100,
+        Cell: (props) => <div className='centered'>{props.value}</div>,
     },
     {
         Header: HEADER_LABEL['specie'],
         accessor: 'specie',
+        minWidth: 100,
+        width: 100,
+        Cell: (props) => <div className='centered'>{props.value}</div>,
     },
     {
         Header: HEADER_LABEL['gender'],
         accessor: 'gender',
+        minWidth: 100,
+        width: 100,
+        Cell: (props) => <div className='centered'>{props.value}</div>,
     },
     {
         Header: HEADER_LABEL['episodesLink'],
         accessor: 'episodesLink',
+        minWidth: 300,
+        maxWidth: 300,
     },
     {
         Header: HEADER_LABEL['characterDetailLink'],
         accessor: 'characterDetailLink',
+        minWidth: 300,
+        maxWidth: 300,
     },
 ]
 
@@ -72,31 +87,34 @@ export const CharactersTable = (props: CharactersTableProps) => {
         if (!props.loading && props.data.length > 0) setData(characterToCharacterRow(props.data))
     }, [props.data, props.loading])
 
-    console.log(data, columns)
 
     return (
-        <table {...getTableProps()} className='table'>
-            <thead>
-                {headerGroups.map(headerGroup => (
-                <tr {...headerGroup.getHeaderGroupProps()}>
-                    {headerGroup.headers.map(column => (
-                    <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+        <div className='table'>
+            <table {...getTableProps()}>
+                <thead>
+                    {headerGroups.map(headerGroup => (
+                        <tr {...headerGroup.getHeaderGroupProps()} style={{...getWidthsStyles(headerGroup)}}>
+                            {headerGroup.headers.map(column => (
+                                <th {...column.getHeaderProps()} style={{...getWidthsStyles(column)}}>{column.render('Header')}</th>
+                            ))}
+                        </tr>
                     ))}
-                </tr>
-                ))}
-            </thead>
-            <tbody {...getTableBodyProps()}>
-                {rows.map((row, i) => {
-                prepareRow(row)
-                return (
-                    <tr {...row.getRowProps()}>
-                    {row.cells.map(cell => {
-                        return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                </thead>
+                <tbody {...getTableBodyProps()}>
+                    {rows.map((row, i) => {
+                        prepareRow(row)
+                        console.log('rpw', row.getRowProps())
+                        return (
+                            <tr {...row.getRowProps()}>
+                                {row.cells.map(cell => {
+                                    console.log('cell', cell.getCellProps())
+                                    return <td {...cell.getCellProps()} style={{...getWidthsStyles(cell.column)}}>{cell.render('Cell')}</td>
+                                })}
+                            </tr>
+                        )
                     })}
-                    </tr>
-                )
-                })}
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     )
 }

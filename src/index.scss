@@ -1,5 +1,5 @@
 html {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 html, body {
@@ -22,4 +22,20 @@ html, body {
     height: 100%;
     width: 100%;
     padding: 20px;
+    background-color: #0A222D;
+
+    > .header {
+        > .title-container {
+            > h1 {
+                font-style: normal;
+                font-weight: 400;
+                font-size: 40px;
+                line-height: 20px;
+                color: rgba(0, 223, 221, 1);
+                text-align: center;
+            }
+        }
+
+        // 
+    } 
 }

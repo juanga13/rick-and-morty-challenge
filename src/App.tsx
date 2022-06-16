@@ -16,7 +16,12 @@ export const App = () => {
     
     return (
         <div className="app">
-            <h1>Rick and Morty characters</h1>
+            <div className="header">
+                <div className="title-container">
+                    <h1>Rick and Morty characters</h1>
+                </div>
+                {/* icon */}
+            </div>
             <input/>
             <CharactersTable data={charactersResponse?.results || []} loading={isLoading}/>
         </div>

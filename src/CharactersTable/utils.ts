@@ -1,5 +1,6 @@
-import { CharacterRow } from "./CharactersTable";
-import { Character } from "./rickAndMortyTypes";
+import { CharacterRow } from ".";
+import { Character } from "../rickAndMortyTypes";
+import { HeaderGroup } from 'react-table'
 
 export const characterToCharacterRow = (characters: Character[]): CharacterRow[] => (
     characters.map((character) => ({
@@ -11,3 +12,9 @@ export const characterToCharacterRow = (characters: Character[]): CharacterRow[]
         characterDetailLink: character.url,
     }))
 )
+
+export const getWidthsStyles = (headerGroup: any) => ({
+    width: headerGroup.width,
+    minWidth: headerGroup.minWidth,
+    maxWidth: headerGroup.maxWidth,
+})
