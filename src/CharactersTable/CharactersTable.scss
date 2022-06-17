@@ -1,7 +1,6 @@
 
 .table {
-    max-width: 100%;
-    overflow: auto;
+    width: 100%;
     
     > table {
         table-layout:fixed;
@@ -10,6 +9,8 @@
         border-radius: 8px;
         background: rgba(196, 196, 196, 0.5);
         padding: 30px;
+        width: 100%;
+        overflow: auto;
 
         td { overflow: hidden; }
 
@@ -22,19 +23,24 @@
                     font-style: normal;
                     font-weight: 400;
                     font-size: 20px;
-                    line-height: 20px;
-                    
+                    line-height: 43px;
+                    padding: 0 24px;
+                    border-bottom: 1px solid white;
                 }
             }
         }
         > tbody {
             color: white;
-        
+
             > tr {
                 border-radius: 8px;
                 
-                &:nth-child(2n-1) {
+                &:nth-child(2n) {
                     background: rgba(10, 34, 45, 0.7);
+                }
+
+                &.empty-row {
+                    height: 8px;
                 }
 
 
@@ -67,6 +73,60 @@
                     }
                 }
             }
+
+            > .skeleton-row {
+                height: 43px;
+                animation-duration: 1.5s;
+                animation-iteration-count: infinite;
+
+                &:nth-child(2n) {
+                    animation-name: skeleton-row-animation-blue;
+                }
+            }
+            
         }
+    }
+
+    > .pagination-footer {
+        margin-top: 32px;
+        display: flex;
+        flex-flow: row nowrap;
+
+        > .pagination-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: transparent;
+            outline: none;
+            color: white;
+            border-radius: 99px;
+            height: 32px;
+            width: 32px;
+            font-size: 16px;
+            margin-right: 8px;
+            
+            &:hover {
+                border: 1px solid rgba(0, 223, 221, 0.5);
+                cursor: pointer;
+                &.is-current {
+                    cursor: default;
+                }
+            }
+            &.is-current {
+                border: 1px solid rgba(0, 223, 221, 1);
+            }
+        }
+    }
+}
+
+@keyframes skeleton-row-animation-blue {
+    0% {
+        background-color: rgba(10, 34, 45, 0.7);
+    }
+    50% {
+        background-color: rgba(10, 34, 45, 0.5);  
+    }
+    100% {
+        background-color: rgba(10, 34, 45, 0.7);
     }
 }

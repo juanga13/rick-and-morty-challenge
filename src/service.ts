@@ -1,5 +1,5 @@
-export const getCharacters = () => {
-    const url = 'https://rickandmortyapi.com/api/character';
+export const getCharacters = (search: string, page?: number) => {
+    const url = ('https://rickandmortyapi.com/api/character') + '?page=' + (page || '') + '&name=' + search
     return get(url)
 }
 

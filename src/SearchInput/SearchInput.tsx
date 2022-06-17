@@ -1,13 +1,31 @@
 import { useEffect, useState } from "react"
+import './SearchInput.scss'
 // @ts-ignore
 import MagnifyingGlass from '../assets/magnifying-glass.svg?component';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheck, faEllipsisH, faSpinner } from "@fortawesome/free-solid-svg-icons";
+
+const TypingIcon = () => <FontAwesomeIcon icon={faEllipsisH} className='icon'/>
+const LoadingIcon = () => <FontAwesomeIcon icon={faSpinner} spin className='icon'/>
+const SuccessIcon = () => <FontAwesomeIcon icon={faCheck} className='icon'/>
+
 interface SearchInputProps {
     onChange: (value: string) => void
+    requestLoading: boolean
+    requestOk: boolean | null
 }
 
 export const SearchInput = (props: SearchInputProps) => {
     const [value, setValue] = useDebounceInput('', props.onChange)
+
+    const renderStatus = () => {
+        return <LoadingIcon/>
+        if (props.requestLoading) return <LoadingIcon/>
+        else if (props.requestOk) return <SuccessIcon/>
+        else if (props.requestOk === null) return null;
+        else return <TypingIcon/>
+    }
 
     return (
         <div className="search-input">
@@ -16,7 +34,11 @@ export const SearchInput = (props: SearchInputProps) => {
             <input
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
+                placeholder='Search User'
             />
+            <div className="icon-container">
+                {renderStatus()}
+            </div>
         </div>
     )
 }

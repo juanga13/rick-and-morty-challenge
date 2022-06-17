@@ -31,7 +31,7 @@ export interface Character {
     url: string
 }
 
-interface ResponseInfo {
+export interface ResponseInfo {
     count: number
     pages: number
     next: string

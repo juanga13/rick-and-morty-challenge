@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Character } from '../rickAndMortyTypes'
+import { Character, ResponseInfo } from '../rickAndMortyTypes'
 import { characterToCharacterRow, getWidthsStyles } from './utils'
 import { useTable, Column } from 'react-table'
 import './CharactersTable.scss'
@@ -25,6 +25,9 @@ enum HEADER_LABEL {
 interface CharactersTableProps {
     data: Character[]
     loading: boolean
+    currentPage: number
+    onPageChange: (newPage: number) => void 
+    paginationData?: ResponseInfo
 }
 
 const columns: Column<CharacterRow>[] = [
@@ -87,6 +90,54 @@ export const CharactersTable = (props: CharactersTableProps) => {
         if (!props.loading && props.data.length > 0) setData(characterToCharacterRow(props.data))
     }, [props.data, props.loading])
 
+    const renderPagination = () => {
+        console.log('renderPagination', props)
+        let paginationNumbers: number[] = []
+        if (!props.paginationData) return null;
+        [1, 2].forEach((n) => {
+            const bottomMarginNumber = props.currentPage - n
+            if (bottomMarginNumber > 0) {
+                paginationNumbers = [...paginationNumbers, bottomMarginNumber]
+            }
+        })
+        paginationNumbers = [...paginationNumbers, props.currentPage];
+        [1, 2].forEach((n) => {
+            const topMarginNumber = props.currentPage + n
+            if (props.paginationData && topMarginNumber < props.paginationData.pages && topMarginNumber - props.paginationData.pages) {
+                paginationNumbers = [...paginationNumbers, topMarginNumber]
+            }
+        })
+
+        return (
+            <div className='pagination-footer'>
+                {props.currentPage !== 1 && (
+                    <PaginationButton
+                        isCurrent={false}
+                        onClick={() => props.onPageChange(1)}
+                    >
+                        {`<<`}
+                    </PaginationButton>
+                )}
+                {paginationNumbers.map((number) => (
+                    <PaginationButton
+                        key={`pagination-number-${number}`}
+                        isCurrent={props.currentPage === number}
+                        onClick={() => props.onPageChange(number)}
+                    >
+                        {number.toString()}
+                    </PaginationButton>
+                ))}
+                {props.currentPage !== props.paginationData.pages && (
+                    <PaginationButton
+                        isCurrent={false}
+                        onClick={() => props.paginationData && props.onPageChange(props.paginationData.pages)}
+                    >
+                        {`>>`}
+                    </PaginationButton>
+                )}
+            </div>
+        )
+    }
 
     return (
         <div className='table'>
@@ -101,7 +152,10 @@ export const CharactersTable = (props: CharactersTableProps) => {
                     ))}
                 </thead>
                 <tbody {...getTableBodyProps()}>
-                    {rows.map((row, i) => {
+                    {/* render empty-row to simulate space between header and first rows */}
+                    <tr className='empty-row'/>
+                    {props.loading && <SkeletonRows/>}
+                    {!props.loading && rows.map((row, i) => {
                         prepareRow(row)
                         return (
                             <tr {...row.getRowProps()}>
@@ -113,6 +167,40 @@ export const CharactersTable = (props: CharactersTableProps) => {
                     })}
                 </tbody>
             </table>
+            {renderPagination()}
         </div>
+    )
+}
+
+interface PaginationButtonProps {
+    isCurrent: boolean
+    children: string
+    onClick: () => void
+}
+const PaginationButton = (props: PaginationButtonProps) => {
+    return (
+        <div
+            className={'pagination-button' + (props.isCurrent ? ' is-current' : '')}
+            onClick={() => !props.isCurrent && props.onClick()}
+        >
+            {props.children}
+        </div>
+    )
+}
+
+const SkeletonRows = () => {
+    return (
+        <>
+            {[1, 2, 3, 4, 5].map((i) => (
+                <tr key={`skeleton-row-${i}`} className='skeleton-row'>
+                    {Object.keys(columns).map((key, j) => {
+                        const value = columns[j]
+                        return (
+                            <td  key={`skeleton-row-${i}-cell-${j}`} style={{...getWidthsStyles(value)}}/>
+                        )
+                    })}
+                </tr>
+            ))}
+        </>
     )
 }

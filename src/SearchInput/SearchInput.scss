@@ -1,0 +1,46 @@
+.search-input {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    height: 40px;
+    
+    svg {
+        margin-right: 22px;
+    }
+    
+    > input {
+        padding: 0;
+        padding-right: 8px;
+        background-color: transparent;
+        border: none;
+        outline: none;
+        height: 100%;
+        width: 500px;
+        color: rgba(0, 223, 221, 1);
+        font-size: 28px;
+        border-bottom: 1px solid rgba(0, 223, 221, 1);
+        
+        &::placeholder {
+            font-size: 28px;
+            color: rgba(0, 223, 221, 1);
+        }
+        
+        &:focus {
+            &::placeholder {
+                color: #999999
+            }
+
+        }
+    }
+
+    > .icon-container {
+        height: 40px;
+        width: 40px;
+        border-bottom: 1px solid rgba(0, 223, 221, 1);
+
+        > .icon {
+            font-size: 33px;
+            color:rgba(0, 223, 221, 1);
+        }
+    }
+}
