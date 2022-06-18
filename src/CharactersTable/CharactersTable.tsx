@@ -66,8 +66,9 @@
         {
             Header: HEADER_LABEL['detailsLink'],
             accessor: 'detailsLink',
-            minWidth: 60,
-            width: 60,
+            minWidth: 100,
+            maxWidth: 100,
+            width: 100,
             Cell: (cellProps) => {
                 return (
                     // @ts-ignore
@@ -147,39 +148,41 @@
 
         return (
             <div className='table'>
-                <table {...getTableProps()}>
-                    <thead>
-                        {headerGroups.map(headerGroup => (
-                            <tr {...headerGroup.getHeaderGroupProps()} style={{...getWidthsStyles(headerGroup)}}>
-                                {headerGroup.headers.map(column => (
-                                    <th {...column.getHeaderProps()} style={{...getWidthsStyles(column)}}>{column.render('Header')}</th>
-                                ))}
-                            </tr>
-                        ))}
-                    </thead>
-                    <tbody {...getTableBodyProps()}>
-                        {/* render empty-row to simulate space between header and first rows */}
-                        <tr className='empty-row'/>
-                        {props.loading && <SkeletonRows columns={columns}/>}
-                        {!props.loading && rows.map((row, i) => {
-                            prepareRow(row)
-                            return (
-                                <tr {...row.getRowProps()}>
-                                    {row.cells.map(cell => {
-                                        return <td {...cell.getCellProps()} style={{...getWidthsStyles(cell.column)}}>
-                                            {cell.render('Cell', {
-                                                onClick: () => {
-                                                    console.log('onclick cell', cell)
-                                                    props.onClickDetails(row.index)
-                                                }
-                                            })}
-                                        </td>
-                                    })}
+                <div className='table-container'>
+                    <table {...getTableProps()}>
+                        <thead>
+                            {headerGroups.map(headerGroup => (
+                                <tr {...headerGroup.getHeaderGroupProps()} style={{...getWidthsStyles(headerGroup)}}>
+                                    {headerGroup.headers.map(column => (
+                                        <th {...column.getHeaderProps()} style={{...getWidthsStyles(column)}}>{column.render('Header')}</th>
+                                    ))}
                                 </tr>
-                            )
-                        })}
-                    </tbody>
-                </table>
+                            ))}
+                        </thead>
+                        <tbody {...getTableBodyProps()}>
+                            {/* render empty-row to simulate space between header and first rows */}
+                            <tr className='empty-row'/>
+                            {props.loading && <SkeletonRows columns={columns}/>}
+                            {!props.loading && rows.map((row, i) => {
+                                prepareRow(row)
+                                return (
+                                    <tr {...row.getRowProps()}>
+                                        {row.cells.map(cell => {
+                                            return <td {...cell.getCellProps()} style={{...getWidthsStyles(cell.column)}}>
+                                                {cell.render('Cell', {
+                                                    onClick: () => {
+                                                        console.log('onclick cell', cell)
+                                                        props.onClickDetails(row.index)
+                                                    }
+                                                })}
+                                            </td>
+                                        })}
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+                    </table>
+                </div>
                 {renderPagination()}
             </div>
         )

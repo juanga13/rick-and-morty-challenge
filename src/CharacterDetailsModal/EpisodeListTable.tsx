@@ -66,34 +66,36 @@ export const EpisodeListTable = (props: EpisodeListTableProps) => {
     return (
         <div className='table'>
             <label>Episodes</label>
-            <table style={{marginTop: 4}} {...getTableProps()}>
-                <thead>
-                    {headerGroups.map(headerGroup => (
-                        <tr {...headerGroup.getHeaderGroupProps()} style={{...getWidthsStyles(headerGroup)}}>
-                            {headerGroup.headers.map(column => (
-                                <th {...column.getHeaderProps()} style={{...getWidthsStyles(column)}}>{column.render('Header')}</th>
-                            ))}
-                        </tr>
-                    ))}
-                </thead>
-                <tbody {...getTableBodyProps()}>
-                    {/* render empty-row to simulate space between header and first rows */}
-                    <tr className='empty-row'/>
-                    {props.loading && <SkeletonRows columns={columns}/>}
-                    {!props.loading && rows.map((row, i) => {
-                        prepareRow(row)
-                        return (
-                            <tr {...row.getRowProps()}>
-                                {row.cells.map(cell => {
-                                    return <td {...cell.getCellProps()} style={{...getWidthsStyles(cell.column)}}>
-                                        {cell.render('Cell')}
-                                    </td>
-                                })}
+            <div className='table-container'>
+                <table style={{marginTop: 4}} {...getTableProps()}>
+                    <thead>
+                        {headerGroups.map(headerGroup => (
+                            <tr {...headerGroup.getHeaderGroupProps()} style={{...getWidthsStyles(headerGroup)}}>
+                                {headerGroup.headers.map(column => (
+                                    <th {...column.getHeaderProps()} style={{...getWidthsStyles(column)}}>{column.render('Header')}</th>
+                                ))}
                             </tr>
-                        )
-                    })}
-                </tbody>
-            </table>
+                        ))}
+                    </thead>
+                    <tbody {...getTableBodyProps()}>
+                        {/* render empty-row to simulate space between header and first rows */}
+                        <tr className='empty-row'/>
+                        {props.loading && <SkeletonRows columns={columns}/>}
+                        {!props.loading && rows.map((row, i) => {
+                            prepareRow(row)
+                            return (
+                                <tr {...row.getRowProps()}>
+                                    {row.cells.map(cell => {
+                                        return <td {...cell.getCellProps()} style={{...getWidthsStyles(cell.column)}}>
+                                            {cell.render('Cell')}
+                                        </td>
+                                    })}
+                                </tr>
+                            )
+                        })}
+                    </tbody>
+                </table>
+            </div>
         </div>
     )
 }
