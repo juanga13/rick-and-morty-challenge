@@ -13,18 +13,21 @@ const SuccessIcon = () => <FontAwesomeIcon icon={faCheck} className='icon'/>
 interface SearchInputProps {
     onChange: (value: string) => void
     requestLoading: boolean
-    requestOk: boolean | null
+    requestOk: boolean
 }
 
 export const SearchInput = (props: SearchInputProps) => {
-    const [value, setValue] = useDebounceInput('', props.onChange)
+    const [value, setValue] = useDebounceInput('', (value) => {
+        props.onChange(value)
+        setTyping(false)
+    })
+    const [typing, setTyping] = useState(false)
 
     const renderStatus = () => {
-        return <LoadingIcon/>
+        if (typing) return <TypingIcon/>
         if (props.requestLoading) return <LoadingIcon/>
         else if (props.requestOk) return <SuccessIcon/>
-        else if (props.requestOk === null) return null;
-        else return <TypingIcon/>
+        else return null;
     }
 
     return (
@@ -33,7 +36,10 @@ export const SearchInput = (props: SearchInputProps) => {
             <MagnifyingGlass/>
             <input
                 value={value}
-                onChange={(e) => setValue(e.target.value)}
+                onChange={(e) => {
+                    setValue(e.target.value)
+                    setTyping(true)
+                }}
                 placeholder='Search User'
             />
             <div className="icon-container">

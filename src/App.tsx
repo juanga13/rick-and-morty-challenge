@@ -11,7 +11,7 @@ export const App = () => {
     const [currentSearch, setCurrentSearch] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [isLoading, setIsLoading] = useState(false)
-    const [isSucceded, setIsSucceded] = useState<boolean | null>(null)
+    const [isSucceded, setIsSucceded] = useState<boolean>(false)
 
     const requestCharacters = (value?: string, page?: number) => {
         setIsLoading(true)
