@@ -1,5 +1,10 @@
 export const getCharacters = (search: string, page?: number) => {
-    const url = ('https://rickandmortyapi.com/api/character') + '?page=' + (page || '') + '&name=' + search
+    const url = ('https://rickandmortyapi.com/api/character') + '?page=' + (page || 1) + '&name=' + search
+    return get(url)
+}
+
+export const getEpisodes = (episodes: string[]) => {
+    const url = 'https://rickandmortyapi.com/api/episode/['  + episodes.join(',') + ']'
     return get(url)
 }
 

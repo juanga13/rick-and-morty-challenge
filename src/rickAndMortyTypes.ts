@@ -31,6 +31,23 @@ export interface Character {
     url: string
 }
 
+export interface Episode {
+    // "id":1,
+    id: number
+    // "name":"Pilot",
+    name: string
+    // "air_date":"December 2, 2013",
+    air_date: string
+    // "episode":"S01E01",
+    episode: string
+    // "characters":["https://rickandmortyapi.com/api/character/1", ...,"https://rickandmortyapi.com/api/character/435"],
+    character: string[]
+    // "url":"https://rickandmortyapi.com/api/episode/1",
+    url: string
+    // "created":"2017-11-10T12:56:33.798Z"
+    created: string
+}
+
 export interface ResponseInfo {
     count: number
     pages: number
@@ -42,4 +59,3 @@ export interface CharactersResponse {
     info: ResponseInfo
     results: Character[]
 }
-  

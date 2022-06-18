@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react"
 import './SearchInput.scss'
 // @ts-ignore
-import MagnifyingGlass from '../assets/magnifying-glass.svg?component';
-
+import MagnifyingGlass from '../assets/magnifying-glass.svg?component'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCheck, faEllipsisH, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faEllipsisH, faSpinner } from "@fortawesome/free-solid-svg-icons"
 
 const TypingIcon = () => <FontAwesomeIcon icon={faEllipsisH} className='icon'/>
 const LoadingIcon = () => <FontAwesomeIcon icon={faSpinner} spin className='icon'/>
